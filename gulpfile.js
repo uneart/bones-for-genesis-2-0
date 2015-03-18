@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     lr = require('tiny-lr'),
     server = lr(),
     uglify = require('gulp-uglify'),
+    concat = require('gulp-concat'),
     plumber = require('gulp-plumber'),
     gutil = require('gulp-util'),
     csscomb = require('gulp-csscomb');
@@ -25,7 +26,7 @@ gulp.task('styles', function() {
           errorHandler: onError
         }))
         .pipe(compass({
-            css: 'css',
+            css: 'build/css',
             sass: 'sass',
             image: 'img',
             font: 'font',
@@ -33,15 +34,15 @@ gulp.task('styles', function() {
             style: 'nested'
         })) // compile SASS
         .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        .pipe(gulp.dest('css'))
+        .pipe(gulp.dest('build/css'))
         .pipe(rename({ suffix: '.min'}))
         .pipe(minifycss())
-        .pipe(gulp.dest('css'))
+        .pipe(gulp.dest('build/css'))
         .pipe(livereload(server))
 });
 
 // uglify JS
-gulp.task('uglify', function() {
+gulp.task('scripts', function() {
   return gulp.src([
         'bower_components/iOS-Orientationchange-Fix/ios-orientationchange-fix.js',
         'bower_components/jquery.cookie/jquery.cookie.js',
@@ -57,9 +58,11 @@ gulp.task('uglify', function() {
     .pipe(plumber({
             errorHandler: onError
         }))
+    .pipe(concat('global.js'))
+    .pipe(gulp.dest('build/js'))
     .pipe(rename({ suffix: '.min'}))
     .pipe(uglify())
-    .pipe(gulp.dest('js'))
+    .pipe(gulp.dest('build/js'))
     .pipe(livereload(server))
 });
 
@@ -77,7 +80,7 @@ gulp.task('html', function() {
 
 // clean target directory
 gulp.task('clean:css', function() {
-  del(['css/**'], function (err, paths) {
+  del(['build/css/**', 'build/js/**'], function (err, paths) {
     console.log('Deleted files/folders:\n', paths.join('\n'));
   });
 });
@@ -94,11 +97,11 @@ gulp.task('watch', function() {
         gulp.watch(['sass/**/*.scss', 'sass/**/*.sass'], ['styles']);
         gulp.watch('*.php', ['php']);
         gulp.watch('*.html', ['html']);
-        gulp.watch('js/*.js', ['uglify']);
+        gulp.watch('js/*.js', ['scripts']);
     });
 });
 
 // default task
 gulp.task('default', ['clean:css'], function() {
-    gulp.start('styles', 'uglify');
+    gulp.start('styles', 'scripts');
 });
