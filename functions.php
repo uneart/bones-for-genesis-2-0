@@ -10,9 +10,6 @@ define( 'CHILD_THEME_NAME', 'Bones for Genesis 2.0' );
 define( 'CHILD_THEME_URL', 'http://bonesforgenesis.com/' );
 define( 'CHILD_THEME_VERSION', '2.3.1' );
 
-// Developer Tools
-require_once( CHILD_DIR . '/includes/developer-tools.php' );		// DO NOT USE THESE ON A LIVE SITE
-
 // Genesis
 require_once( CHILD_DIR . '/includes/genesis.php' );				// Customizations to Genesis-specific functions
 
