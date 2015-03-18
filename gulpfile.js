@@ -3,14 +3,15 @@ var gulp = require('gulp'),
     autoprefix = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
     rename = require('gulp-rename'),
-    clean = require('gulp-clean'),
+    del = require('del'),
     notify = require('gulp-notify'),
     livereload = require('gulp-livereload'),
     lr = require('tiny-lr'),
-    server = lr();
+    server = lr(),
     uglify = require('gulp-uglify'),
     plumber = require('gulp-plumber'),
-    gutil = require('gulp-util');
+    gutil = require('gulp-util'),
+    csscomb = require('gulp-csscomb');
 
 // add Error handling method for plumber plugin
 var onError = function (err) {
@@ -52,7 +53,6 @@ gulp.task('uglify', function() {
         'build/svgs/grunticon.loader.js',
         'js/*.js',
         '!js/*.min.js'
-
     ])
     .pipe(plumber({
             errorHandler: onError
@@ -76,9 +76,10 @@ gulp.task('html', function() {
 });
 
 // clean target directory
-gulp.task('clean', function() {
-    return gulp.src(['css'], {read: false})
-        .pipe(clean());
+gulp.task('clean:css', function() {
+  del(['css/**'], function (err, paths) {
+    console.log('Deleted files/folders:\n', paths.join('\n'));
+  });
 });
 
 // watch for updates and update livereload server
@@ -98,6 +99,6 @@ gulp.task('watch', function() {
 });
 
 // default task
-gulp.task('default', ['clean'], function() {
+gulp.task('default', ['clean:css'], function() {
     gulp.start('styles', 'uglify');
 });
