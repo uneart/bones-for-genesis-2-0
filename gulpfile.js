@@ -41,7 +41,7 @@ gulp.task('styles', function() {
         .pipe(livereload(server))
 });
 
-// uglify JS
+// uglify and concat JS
 gulp.task('scripts', function() {
   return gulp.src([
         'bower_components/iOS-Orientationchange-Fix/ios-orientationchange-fix.js',
@@ -79,7 +79,7 @@ gulp.task('html', function() {
 });
 
 // clean target directory
-gulp.task('clean:css', function() {
+gulp.task('clean:build', function() {
   del(['build/css/**', 'build/js/**'], function (err, paths) {
     console.log('Deleted files/folders:\n', paths.join('\n'));
   });
@@ -102,6 +102,6 @@ gulp.task('watch', function() {
 });
 
 // default task
-gulp.task('default', ['clean:css'], function() {
+gulp.task('default', ['clean:build'], function() {
     gulp.start('styles', 'scripts');
 });
