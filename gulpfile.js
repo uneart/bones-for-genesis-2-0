@@ -42,6 +42,14 @@ gulp.task('styles', function() {
 // uglify JS
 gulp.task('uglify', function() {
   return gulp.src([
+        'bower_components/iOS-Orientationchange-Fix/ios-orientationchange-fix.js',
+        'bower_components/jquery.cookie/jquery.cookie.js',
+        'bower_components/jquery.fitvids/jquery.fitvids.js',
+        'bower_components/jquery-placeholder/jquery.placeholder.js',
+        'bower_components/picturefill/picturefill.js',
+        'bower_components/superfish/dist/js/superfish.js',
+        'bower_components/svgeezy/svgeezy.js',
+        'build/svgs/grunticon.loader.js',
         'js/*.js',
         '!js/*.min.js'
 
