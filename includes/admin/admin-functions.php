@@ -19,15 +19,6 @@ function bfg_disable_self_pings( &$links ) {
 }
 
 /**
- * Change WP JPEG compression (WP default is 90%)
- *
- * See: http://wpmu.org/how-to-change-jpeg-compression-in-wordpress/
- *
- * @since 2.0.14
- */
-// add_filter( 'jpeg_quality', create_function( '', 'return 80;' ) );
-
-/**
  * Add new image sizes
  *
  * See: http://wptheming.com/2014/04/features-wordpress-3-9/
@@ -85,56 +76,5 @@ function bfg_get_image_sizes( $size = '' ) {
 		return isset($sizes[$size]) ? $sizes[$size] : false;
 
 	return $sizes;
-
-}
-
-/**
- * Activate the Link Manager
- *
- * See: http://wordpressexperts.net/how-to-activate-link-manager-in-wordpress-3-5/
- *
- * @since 2.0.1
- */
-// add_filter( 'pre_option_link_manager_enabled', '__return_true' );		// Activate
-
-/**
- * Disable pingbacks
- *
- * See: http://wptavern.com/how-to-prevent-wordpress-from-participating-in-pingback-denial-of-service-attacks
- *
- * Still having pingback/trackback issues? This post might help: https://wordpress.org/support/topic/disabling-pingbackstrackbacks-on-pages#post-4046256
- *
- * @since 2.2.3
- */
-add_filter( 'xmlrpc_methods', 'bfg_remove_xmlrpc_pingback_ping' );
-function bfg_remove_xmlrpc_pingback_ping( $methods ) {
-
-	unset($methods['pingback.ping']);
-	return $methods;
-
-};
-
-/**
- * Disable XML-RPC
- *
- * See: https://wordpress.stackexchange.com/questions/78780/xmlrpc-enabled-filter-not-called
- *
- * @since 2.2.12
- */
-// if( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) exit;
-
-/**
- * Automatically remove readme.html (and optionally xmlrpc.php) after a WP core update
- *
- * @since 2.2.26
- */
-add_action( '_core_updated_successfully', 'bfg_remove_files_on_upgrade' );
-function bfg_remove_files_on_upgrade() {
-
-	if( file_exists(ABSPATH . 'readme.html') )
-		unlink(ABSPATH . 'readme.html');
-
-	// if( file_exists(ABSPATH . 'xmlrpc.php') )
-	// 	unlink(ABSPATH . 'xmlrpc.php');
 
 }
