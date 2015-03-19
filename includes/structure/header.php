@@ -100,7 +100,7 @@ function bfg_load_scripts() {
 	add_filter( 'script_loader_src', 'bfg_jquery_local_fallback', 10, 2 );
 
 	// Main script file (in footer)
-	$src = $use_production_assets ? '/build/js/scripts.min.js' : '/build/js/scripts.js';
+	$src = $use_production_assets ? '/build/js/global.min.js' : '/build/js/global.js';
 	$stylesheet_dir = get_stylesheet_directory_uri();
 	wp_enqueue_script( 'bfg', $stylesheet_dir . $src, array( 'jquery' ), null, true );
 	wp_localize_script(
